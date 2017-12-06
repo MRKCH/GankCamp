@@ -14,5 +14,4 @@ public abstract class BaseModel<T> implements IModel{
     protected RetrofitWrapper mRetrofitWrapper = new RetrofitWrapper();
 
 
-
 }

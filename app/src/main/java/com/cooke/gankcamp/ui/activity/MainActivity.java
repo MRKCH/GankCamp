@@ -82,6 +82,11 @@ public class MainActivity extends BaseActivity implements IMainView {
     }
 
     @Override
+    public void hideLoading(String msg) {
+
+    }
+
+    @Override
     public void showMsg(String msg) {
 
     }

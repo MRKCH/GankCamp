@@ -1,6 +1,8 @@
 package com.cooke.gankcamp.net;
 
 import com.cooke.gankcamp.contsants.GankUrl;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -37,6 +39,7 @@ public class RetrofitWrapper {
         }
         return  mRetrofit;
     }
+
 
     public <T> T createService(Class<T> service){
        return creatRetrofit().create(service);

@@ -4,7 +4,7 @@ package com.cooke.gankcamp.ui.view;
  * Created by kch on 2017/11/27.
  */
 
-public interface IBaseView<T> {
+public interface IBaseView {
     void showLoading();
 
     void showLoading(String msg);
@@ -12,6 +12,8 @@ public interface IBaseView<T> {
     void showLoading(String msg, int progress);
 
     void hideLoading();
+
+    void hideLoading(String msg);
 
     void showMsg(String msg);
 

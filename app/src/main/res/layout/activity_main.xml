@@ -10,57 +10,50 @@
         android:layout_height="match_parent"
         >
 
-        <LinearLayout
+
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <android.support.design.widget.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <LinearLayout
+                <android.support.v7.widget.Toolbar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_scrollFlags="scroll">
+                    app:theme="@style/ToolbarTheme"
+                    app:title="干货集中营"
+                    android:id="@+id/toolbar"
+                    app:navigationIcon="@mipmap/drawer"
+                    android:layout_alignParentTop="true"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    >
 
-                    <android.support.v7.widget.Toolbar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:theme="@style/ToolbarTheme"
-                        app:title="干货集中营"
-                        android:id="@+id/toolbar"
-                        app:navigationIcon="@mipmap/drawer"
-                        android:layout_alignParentTop="true"
-                        >
+                </android.support.v7.widget.Toolbar>
 
-                    </android.support.v7.widget.Toolbar>
-
-                    <android.support.design.widget.TabLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:tabIndicatorColor="@color/themeColor"
-                        app:tabMode="fixed"
-                        android:id="@+id/tab_layout"
-                        android:background="@color/white"
-                        app:tabSelectedTextColor="@color/themeColor"
-                        app:tabTextColor="@color/gray">
-                    </android.support.design.widget.TabLayout>
-                </LinearLayout>
+                <android.support.design.widget.TabLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabIndicatorColor="@color/themeColor"
+                    app:tabMode="fixed"
+                    android:id="@+id/tab_layout"
+                    android:background="@color/white"
+                    app:tabSelectedTextColor="@color/themeColor"
+                    app:tabTextColor="@color/gray">
+                </android.support.design.widget.TabLayout>
 
 
 
-            </android.support.design.widget.AppBarLayout>
+
+        </android.support.design.widget.AppBarLayout>
 
 
 
-            <android.support.v4.view.ViewPager
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/view_pager"/>
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/view_pager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-        </LinearLayout>
+
 
 
     </android.support.design.widget.CoordinatorLayout>

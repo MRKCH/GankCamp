@@ -1,7 +1,10 @@
 package com.cooke.gankcamp.ui.fragment;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +17,9 @@ import android.view.ViewGroup;
 import com.cooke.gankcamp.R;
 import com.cooke.gankcamp.beans.GankBean;
 import com.cooke.gankcamp.presenter.NewsFragPresenter;
+import com.cooke.gankcamp.ui.activity.ImageActivity;
+import com.cooke.gankcamp.ui.activity.MainActivity;
+import com.cooke.gankcamp.ui.activity.WebGankActivity;
 import com.cooke.gankcamp.ui.adapter.EverydayGankAdapter;
 import com.cooke.gankcamp.ui.view.INewsView;
 import com.cooke.gankcamp.util.ToastUtil;
@@ -29,7 +35,7 @@ import butterknife.BindView;
  * Created by kch on 2017/11/27.
  */
 
-public class NewsFragment extends BaseFragment implements INewsView{
+public class NewsFragment extends BaseFragment implements INewsView,EverydayGankAdapter.OnItemClickListener{
 
     private NewsFragPresenter mPresenter;
 
@@ -59,7 +65,7 @@ public class NewsFragment extends BaseFragment implements INewsView{
         refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refresh_layout.setRefreshing(true);
+
                 mPresenter.refreshData();
             }
         });
@@ -70,6 +76,8 @@ public class NewsFragment extends BaseFragment implements INewsView{
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recycler_view.setLayoutManager(layoutManager);
         adapter = new EverydayGankAdapter(getActivity());
+        adapter.setItemClickListener(this);
+
         recycler_view.setAdapter(adapter);
         recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItemPos =0;
@@ -96,6 +104,14 @@ public class NewsFragment extends BaseFragment implements INewsView{
             }
         });
 
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                refresh_layout.setRefreshing(true);
+                mPresenter.refreshData();
+            }
+        });
+
     }
 
     @Override
@@ -115,6 +131,11 @@ public class NewsFragment extends BaseFragment implements INewsView{
 
     @Override
     public void hideLoading() {
+
+    }
+
+    @Override
+    public void hideLoading(String msg) {
 
     }
 
@@ -167,4 +188,22 @@ public class NewsFragment extends BaseFragment implements INewsView{
         mPresenter.detachView();
     }
 
+
+    @Override
+    public void onItemDescClick(View view, GankBean gankBean) {
+        String url = gankBean.getUrl();
+        String title = gankBean.getDesc();
+        Intent intent = new Intent(getActivity(), WebGankActivity.class);
+        intent.putExtra(WebGankActivity.WEB_URL,url);
+        intent.putExtra(WebGankActivity.WEB_TITLE,title);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onItemImageClick(View view, GankBean gankBean) {
+        Intent intent = new Intent(getActivity(), ImageActivity.class);
+        String url = gankBean.getUrl();
+        intent.putExtra(ImageActivity.IMG_URL,url);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity(), view, "image").toBundle());
+    }
 }

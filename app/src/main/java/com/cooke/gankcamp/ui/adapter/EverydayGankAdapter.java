@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -149,7 +150,7 @@ public class EverydayGankAdapter extends RecyclerView.Adapter<EverydayGankAdapte
         public abstract void bindItem(Context context, GankBean gankBean,int position);
     }
 
-    static class TimeHolder extends EverydayGankHolder{
+     class TimeHolder extends EverydayGankHolder{
         @BindView(R.id.tv_time)
         TextView tv_time;
         public TimeHolder(View itemView) {
@@ -166,7 +167,7 @@ public class EverydayGankAdapter extends RecyclerView.Adapter<EverydayGankAdapte
         }
     }
 
-    static class CategoryHolder extends EverydayGankHolder{
+     class CategoryHolder extends EverydayGankHolder{
 
         @BindView(R.id.tv_category)
         TextView tv_category;
@@ -181,8 +182,10 @@ public class EverydayGankAdapter extends RecyclerView.Adapter<EverydayGankAdapte
         }
     }
 
-    static class DescHolder extends EverydayGankHolder{
+     class DescHolder extends EverydayGankHolder{
 
+         @BindView(R.id.ll_desc)
+         LinearLayout ll_desc;
         @BindView(R.id.tv_desc)
         TextView tv_desc;
         @BindView(R.id.im_girl)
@@ -193,18 +196,38 @@ public class EverydayGankAdapter extends RecyclerView.Adapter<EverydayGankAdapte
         }
 
         @Override
-        public void bindItem(Context context, GankBean gankBean, int position) {
+        public void bindItem(Context context, final GankBean gankBean, int position) {
             String type = gankBean.getType();
             if (type.equals("福利")){
                 im_girl.setVisibility(View.VISIBLE);
                 tv_desc.setVisibility(View.GONE);
                 String img_url = gankBean.getUrl();
-                Glide.with(context).load(img_url).placeholder(R.mipmap.gem).into(im_girl);
+                Glide.with(context).load(img_url).placeholder(R.color.white).into(im_girl);
+
+                if (listener!=null){
+                    im_girl.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            listener.onItemImageClick(im_girl,gankBean);
+                        }
+                    });
+                }
             }else {
                 im_girl.setVisibility(View.GONE);
                 tv_desc.setVisibility(View.VISIBLE);
                 tv_desc.setText(gankBean.getDesc());
+
+                if (listener!=null){
+                    tv_desc.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            listener.onItemDescClick(tv_desc,gankBean);
+                        }
+                    });
+                }
             }
+
+
         }
     }
 
@@ -228,6 +251,17 @@ public class EverydayGankAdapter extends RecyclerView.Adapter<EverydayGankAdapte
     public enum ItemType{
         //不要更换枚举的位置
         PUBLISH_TIME,CATEGORY,GANK_DESC,FOOTER;
+
+    }
+
+    private OnItemClickListener listener;
+    public void setItemClickListener(OnItemClickListener listener){
+        this.listener = listener;
+    }
+    public interface OnItemClickListener{
+        public void onItemDescClick(View view,GankBean gankBean);
+
+        public void onItemImageClick(View view,GankBean gankBean);
 
     }
 }
