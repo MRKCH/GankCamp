@@ -2,7 +2,7 @@ package com.cooke.gankcamp.Interface;
 
 import com.cooke.gankcamp.beans.GankData;
 import com.cooke.gankcamp.beans.GirlData;
-
+import com.cooke.gankcamp.beans.SortData;
 
 
 import io.reactivex.Observable;
@@ -27,4 +27,8 @@ public interface GankService {
 
     @GET
     Observable<ResponseBody> downloadGirlImage(@Url String url);
+
+    @GET("data/{cotentType}/{dataCount}/{pageIndex}")
+    Observable<SortData> getSortGankData(@Path("contentType") String contentType
+            ,@Path("dataCount") int dataCount, @Path("pageIndex") int pageIndex);
 }

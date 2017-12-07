@@ -25,7 +25,8 @@
         </activity>
         <activity android:name=".ui.activity.WebGankActivity" />
         <activity android:name=".ui.activity.ImageActivity" />
-        <activity android:name=".ui.activity.AboutPhoneActivity"></activity>
+        <activity android:name=".ui.activity.AboutPhoneActivity" />
+        <activity android:name=".ui.activity.SortGankActvity"></activity>
     </application>
 
 </manifest>

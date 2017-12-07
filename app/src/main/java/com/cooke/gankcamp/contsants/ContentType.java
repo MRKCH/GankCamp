@@ -6,8 +6,8 @@ package com.cooke.gankcamp.contsants;
 
 public class ContentType {
 
-    public static final String ANDROID="android";
-    public static final String IOS="ios";
+    public static final String ANDROID="Android";
+    public static final String IOS="iOS";
     public static final String WELFARE="福利";
     public static final String VIDEO="休息视频";
     public static final String RECOMMEND="瞎推荐";

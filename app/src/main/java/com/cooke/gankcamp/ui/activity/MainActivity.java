@@ -34,6 +34,8 @@ public class MainActivity extends BaseActivity implements IMainView,View.OnClick
     ViewPager view_pager;
     @BindView(R.id.ll_about)
     LinearLayout ll_about;
+    @BindView(R.id.ll_sort)
+    LinearLayout ll_sort;
 
 
     @Override
@@ -63,6 +65,7 @@ public class MainActivity extends BaseActivity implements IMainView,View.OnClick
         view_pager.setAdapter(mFragmentAdapter);
 
         ll_about.setOnClickListener(this);
+        ll_sort.setOnClickListener(this);
 
     }
 
@@ -125,6 +128,10 @@ public class MainActivity extends BaseActivity implements IMainView,View.OnClick
             case R.id.ll_about:
                 Intent toAboutPhone = new Intent(MainActivity.this,AboutPhoneActivity.class);
                 startActivity(toAboutPhone);
+                break;
+            case R.id.ll_sort:
+                Intent toSortGank = new Intent(MainActivity.this,SortGankActvity.class);
+                startActivity(toSortGank);
                 break;
         }
     }
