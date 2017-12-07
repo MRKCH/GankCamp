@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.cooke.gankcamp.beans.GankBean;
 import com.cooke.gankcamp.beans.GankData;
+import com.cooke.gankcamp.db.GankBeanManager;
 import com.cooke.gankcamp.model.NewsModel;
 import com.cooke.gankcamp.ui.view.INewsView;
 import com.cooke.gankcamp.util.ToastUtil;
@@ -35,10 +36,7 @@ public class NewsFragPresenter extends BasePresenter<INewsView> {
     private static final int DAY_OF_MILLSECOND = 24*60*60*1000;
 
     private int emptyDayCount = 0;
-    public void refreshData() {
-        Date date = new Date(System.currentTimeMillis());
-        loadGankData(date,true);
-    }
+
 
     private NewsModel mNewsModel;
 
@@ -49,19 +47,27 @@ public class NewsFragPresenter extends BasePresenter<INewsView> {
 
     private static final  int MAX_DAY_INTERVAL = 15;
 
+    private GankBeanManager mGankBeanManager;
+    private Context mContext;
 
 
-    public NewsFragPresenter() {
+    public NewsFragPresenter(Context context) {
         mNewsModel = new NewsModel();
         mGankDataList = new ArrayList<>();
         com.orhanobut.logger.Logger.init(TAG);
+        this.mContext = context;
+        mGankBeanManager = GankBeanManager.getInstance(context);
+        mCurDate = mGankBeanManager.queryDate();
     }
 
 
     public Date getCurDate(){
         return mCurDate;
     }
-
+    public void refreshData() {
+        Date date = new Date(System.currentTimeMillis());
+        loadGankData(date,true);
+    }
 
     public void loadGankData(final Date date,  final boolean isRefreshData) {
 
@@ -92,13 +98,16 @@ public class NewsFragPresenter extends BasePresenter<INewsView> {
                 .subscribe(new Observer<List<GankBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        if (isRefreshData) {
+                            mView.showLoading();
+                        }
+                        com.orhanobut.logger.Logger.i("onSubscribe");
                     }
 
                     @Override
                     public void onNext(List<GankBean> value) {
 
-                        com.orhanobut.logger.Logger.d("onNext:"+"==== isRefresh:"+isRefreshData);
+                        com.orhanobut.logger.Logger.i("onNext:"+"==== isRefresh:"+isRefreshData);
                         mCurDate = date;
                         //下拉刷新
                         if (isRefreshData) {
@@ -107,7 +116,8 @@ public class NewsFragPresenter extends BasePresenter<INewsView> {
                                 loadGankData(new Date(date.getTime()-DAY_OF_MILLSECOND),true);
                             }else {
                                 mView.refresh(mGankDataList);
-
+                                mGankBeanManager.deleteAll();
+                                mGankBeanManager.insertList(mGankDataList);
                             }
 
                         } else {
@@ -135,7 +145,7 @@ public class NewsFragPresenter extends BasePresenter<INewsView> {
 
                     @Override
                     public void onComplete() {
-                        com.orhanobut.logger.Logger.d("onComplete:"+"=== isRefresh:"+isRefreshData);
+                        com.orhanobut.logger.Logger.i("onComplete:"+"=== isRefresh:"+isRefreshData);
 
                     }
                 });
@@ -166,6 +176,17 @@ public class NewsFragPresenter extends BasePresenter<INewsView> {
 
         return mGankDataList;
 
+    }
+
+    public void loadData(){
+        mGankDataList.clear();
+        List<GankBean> cache = mGankBeanManager.queryList();
+        if (cache.isEmpty()){
+            refreshData();
+        }else {
+            mGankDataList.addAll(cache);
+            mView.refresh(mGankDataList);
+        }
 
     }
 }

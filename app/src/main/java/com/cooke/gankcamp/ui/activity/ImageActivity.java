@@ -43,6 +43,8 @@ public class ImageActivity extends BaseActivity implements IImageGirlView, View.
         mPresenter.showImage(img_url);
         mPresenter.requestPermission();
         btn_download.setOnClickListener(this);
+
+        img_girl.setOnClickListener(this);
     }
 
     @Override
@@ -116,6 +118,15 @@ public class ImageActivity extends BaseActivity implements IImageGirlView, View.
             case R.id.btn_download:
                 mPresenter.downloadImage(img_url);
                 break;
+            case R.id.img_girl:
+               onBackPressed();
+                finish();
+                break;
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
     }
 }

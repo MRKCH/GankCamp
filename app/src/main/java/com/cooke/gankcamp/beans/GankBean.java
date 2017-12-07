@@ -1,14 +1,23 @@
 package com.cooke.gankcamp.beans;
 
+import com.google.gson.annotations.SerializedName;
+
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+
 import java.io.Serializable;
 import java.util.Date;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by kch on 2017/11/28.
  */
 
+@Entity
 public class GankBean implements Serializable,Cloneable {
 
+
+    private static final long serialVersionUID = -3318311343633027079L;
     /**
      * _id: "5a1627fe421aa90fe2f02c80",
      * createdAt: "2017-11-23T09:44:30.245Z",
@@ -20,7 +29,12 @@ public class GankBean implements Serializable,Cloneable {
      * used: true,
      * who: "陈宇明"
      */
-    private String id;
+
+    @Id
+    @SerializedName("_id")
+    private String objectId;
+
+    private long id;
     private Date createAt;
     private Date publishedAt;
     private String soucre;
@@ -34,6 +48,35 @@ public class GankBean implements Serializable,Cloneable {
 
     private boolean isCategory;
 
+
+    @Generated(hash = 556997774)
+    public GankBean(String objectId, long id, Date createAt, Date publishedAt, String soucre, String type, String url,
+            boolean isUsed, String author, String desc, boolean isHeaderTime, boolean isCategory) {
+        this.objectId = objectId;
+        this.id = id;
+        this.createAt = createAt;
+        this.publishedAt = publishedAt;
+        this.soucre = soucre;
+        this.type = type;
+        this.url = url;
+        this.isUsed = isUsed;
+        this.author = author;
+        this.desc = desc;
+        this.isHeaderTime = isHeaderTime;
+        this.isCategory = isCategory;
+    }
+
+    @Generated(hash = 1453199415)
+    public GankBean() {
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 
     public boolean isCategory() {
         return isCategory;
@@ -51,11 +94,11 @@ public class GankBean implements Serializable,Cloneable {
         isHeaderTime = headerTime;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -133,5 +176,29 @@ public class GankBean implements Serializable,Cloneable {
         }
 
         return gankBean;
+    }
+
+    public boolean getIsUsed() {
+        return this.isUsed;
+    }
+
+    public void setIsUsed(boolean isUsed) {
+        this.isUsed = isUsed;
+    }
+
+    public boolean getIsHeaderTime() {
+        return this.isHeaderTime;
+    }
+
+    public void setIsHeaderTime(boolean isHeaderTime) {
+        this.isHeaderTime = isHeaderTime;
+    }
+
+    public boolean getIsCategory() {
+        return this.isCategory;
+    }
+
+    public void setIsCategory(boolean isCategory) {
+        this.isCategory = isCategory;
     }
 }

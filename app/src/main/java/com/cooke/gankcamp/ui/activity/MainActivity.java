@@ -1,5 +1,6 @@
 package com.cooke.gankcamp.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -8,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.cooke.gankcamp.R;
 import com.cooke.gankcamp.presenter.MainPresenter;
@@ -16,7 +18,7 @@ import com.cooke.gankcamp.ui.view.IMainView;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements IMainView {
+public class MainActivity extends BaseActivity implements IMainView,View.OnClickListener {
 
     private MainPresenter mPresenter;
 
@@ -30,7 +32,8 @@ public class MainActivity extends BaseActivity implements IMainView {
     TabLayout tab_layout;
     @BindView(R.id.view_pager)
     ViewPager view_pager;
-
+    @BindView(R.id.ll_about)
+    LinearLayout ll_about;
 
 
     @Override
@@ -58,6 +61,8 @@ public class MainActivity extends BaseActivity implements IMainView {
 
         mFragmentAdapter = new GankFragmentAdapter(getSupportFragmentManager());
         view_pager.setAdapter(mFragmentAdapter);
+
+        ll_about.setOnClickListener(this);
 
     }
 
@@ -114,4 +119,13 @@ public class MainActivity extends BaseActivity implements IMainView {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.ll_about:
+                Intent toAboutPhone = new Intent(MainActivity.this,AboutPhoneActivity.class);
+                startActivity(toAboutPhone);
+                break;
+        }
+    }
 }

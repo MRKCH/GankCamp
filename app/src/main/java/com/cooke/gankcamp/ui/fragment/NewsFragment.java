@@ -70,7 +70,7 @@ public class NewsFragment extends BaseFragment implements INewsView,EverydayGank
             }
         });
 
-        mPresenter = new NewsFragPresenter();
+        mPresenter = new NewsFragPresenter(getActivity());
         mPresenter.attachView(this);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -104,13 +104,7 @@ public class NewsFragment extends BaseFragment implements INewsView,EverydayGank
             }
         });
 
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                refresh_layout.setRefreshing(true);
-                mPresenter.refreshData();
-            }
-        });
+        mPresenter.loadData();
 
     }
 

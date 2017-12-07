@@ -63,11 +63,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
+        android:orientation="vertical"
         android:layout_gravity="start">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="settings"/>
+            android:src="@mipmap/gem"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="20dp"
+            android:id="@+id/ll_about"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@mipmap/about_phone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:textSize="16dp"
+                android:textColor="@color/themeColor"
+                android:text="关于本机"/>
+        </LinearLayout>
+
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
