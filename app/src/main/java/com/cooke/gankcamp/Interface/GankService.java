@@ -28,7 +28,7 @@ public interface GankService {
     @GET
     Observable<ResponseBody> downloadGirlImage(@Url String url);
 
-    @GET("data/{cotentType}/{dataCount}/{pageIndex}")
+    @GET("data/{contentType}/{dataCount}/{pageIndex}")
     Observable<SortData> getSortGankData(@Path("contentType") String contentType
             ,@Path("dataCount") int dataCount, @Path("pageIndex") int pageIndex);
 }

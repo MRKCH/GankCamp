@@ -7,6 +7,7 @@ import com.cooke.gankcamp.beans.SortData;
 import com.cooke.gankcamp.model.SortGankModel;
 import com.cooke.gankcamp.ui.view.ISortGankView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -26,12 +27,15 @@ public class SortGankFragPresenter extends BasePresenter<ISortGankView> {
 
     private SortGankModel mModel;
 
+    private List<GankBean> mGankBeanList;
+
     public SortGankFragPresenter(Context context){
+        mGankBeanList = new ArrayList<>();
         mContext  = context;
         mModel = new SortGankModel();
     }
 
-    public void loadGankData(String contentType,int dataCount, int pageCount,boolean isRefreshData){
+    public void loadGankData(String contentType, int dataCount, int pageCount, final boolean isRefreshData){
 
         mModel.getSortGankData(contentType,dataCount,pageCount)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,12 +50,22 @@ public class SortGankFragPresenter extends BasePresenter<ISortGankView> {
                 .subscribe(new Observer<List<GankBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        if (isRefreshData) {
+                            mView.showLoading();
+                        }
                     }
 
                     @Override
                     public void onNext(List<GankBean> value) {
-
+                        if(isRefreshData){
+                            mView.refresh(value);
+                        }else {
+                            if (value.isEmpty()){
+                                mView.noMoreData();
+                            }else {
+                                mView.loadMoreData(value);
+                            }
+                        }
                     }
 
                     @Override

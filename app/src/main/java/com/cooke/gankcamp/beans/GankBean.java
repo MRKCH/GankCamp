@@ -41,8 +41,11 @@ public class GankBean implements Serializable,Cloneable {
     private String type;
     private String url;
     private boolean isUsed;
+    @SerializedName("who")
     private String author;
+
     private String desc;
+
 
     private boolean isHeaderTime;
 

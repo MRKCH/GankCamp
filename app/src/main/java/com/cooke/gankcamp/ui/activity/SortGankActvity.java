@@ -43,6 +43,7 @@ public class SortGankActvity extends BaseActivity {
 
         mAdapter = new SortGankFragAdapter(getSupportFragmentManager());
         view_pager.setAdapter(mAdapter);
+        view_pager.setOffscreenPageLimit(3);
         tab_layout.setupWithViewPager(view_pager);
 
         tool_bar.setNavigationOnClickListener(new View.OnClickListener() {
