@@ -19,4 +19,11 @@ public class MainPresenter extends BasePresenter<IMainView> {
         mView.showDrawer();
     }
 
+    public void signIn(){
+        mView.signIn();
+    }
+
+    public void signOut(){
+        mView.signOut();
+    }
 }

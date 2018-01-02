@@ -59,18 +59,49 @@
     </android.support.design.widget.CoordinatorLayout>
 
     <!--侧滑菜单-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
-        android:orientation="vertical"
-        android:layout_gravity="start">
+        android:orientation="vertical">
 
-        <ImageView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/gem"
-            android:scaleType="centerCrop"/>
+            android:layout_height="160dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/gem"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:id="@+id/tv_google_email"
+                android:layout_alignParentBottom="true"
+                android:text="邮箱"
+                android:textSize="17sp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                android:text="姓名"
+                android:textSize="17sp"
+                android:layout_above="@id/tv_google_email"
+                android:id="@+id/tv_google_name"/>
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,9 +150,27 @@
             android:textSize="16dp"
             android:textColor="@color/themeColor"
             android:text="关于本机"/>
-    </LinearLayout>
-
-
 
     </LinearLayout>
+
+    </LinearLayout>
+        <com.google.android.gms.common.SignInButton
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/btn_sign_google"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:text="退出登录"
+            android:visibility="gone"
+            android:id="@+id/btn_signout_google"/>
+
+    </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>

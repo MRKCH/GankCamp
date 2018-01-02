@@ -2,6 +2,7 @@ package com.cooke.gankcamp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -9,20 +10,32 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.cooke.gankcamp.R;
 import com.cooke.gankcamp.presenter.MainPresenter;
 import com.cooke.gankcamp.ui.adapter.GankFragmentAdapter;
 import com.cooke.gankcamp.ui.view.IMainView;
+import com.cooke.gankcamp.util.GoogleLogin;
+import com.cooke.gankcamp.util.ToastUtil;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements IMainView,View.OnClickListener {
+public class MainActivity extends BaseActivity implements IMainView,View.OnClickListener,GoogleLogin.GoogleSignListener {
 
     private MainPresenter mPresenter;
 
     private GankFragmentAdapter mFragmentAdapter;
+
+    private GoogleLogin mGoogleSign;
 
     @BindView(R.id.toolbar)
     Toolbar tool_bar;
@@ -36,7 +49,14 @@ public class MainActivity extends BaseActivity implements IMainView,View.OnClick
     LinearLayout ll_about;
     @BindView(R.id.ll_sort)
     LinearLayout ll_sort;
-
+    @BindView(R.id.btn_sign_google)
+    SignInButton btn_sign_google;
+    @BindView(R.id.btn_signout_google)
+    Button btn_signout_google;
+    @BindView(R.id.tv_google_email)
+    TextView tv_google_email;
+    @BindView(R.id.tv_google_name)
+    TextView tv_google_name;
 
     @Override
     protected int initLayoutId() {
@@ -66,6 +86,18 @@ public class MainActivity extends BaseActivity implements IMainView,View.OnClick
 
         ll_about.setOnClickListener(this);
         ll_sort.setOnClickListener(this);
+        btn_sign_google.setOnClickListener(this);
+        btn_signout_google.setOnClickListener(this);
+
+        mGoogleSign = new GoogleLogin(this, new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                ToastUtil.showToast(MainActivity.this,"连接谷歌服务失败");
+            }
+        });
+        mGoogleSign.setGoogleSignListener(this);
+
+
 
     }
 
@@ -121,6 +153,16 @@ public class MainActivity extends BaseActivity implements IMainView,View.OnClick
         drawer_layout.openDrawer(Gravity.LEFT);
     }
 
+    @Override
+    public void signIn() {
+        mGoogleSign.signIn();
+    }
+
+    @Override
+    public void signOut() {
+        mGoogleSign.signOut();
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -133,6 +175,54 @@ public class MainActivity extends BaseActivity implements IMainView,View.OnClick
                 Intent toSortGank = new Intent(MainActivity.this,SortGankActvity.class);
                 startActivity(toSortGank);
                 break;
+            case R.id.btn_sign_google:
+                mPresenter.signIn();
+                break;
+            case R.id.btn_signout_google:
+                mPresenter.signOut();
+                break;
+        }
+    }
+
+    @Override
+    public void onGoogleLoginSuccess(GoogleSignInAccount account) {
+        btn_signout_google.setVisibility(View.GONE);
+        btn_signout_google.setVisibility(View.VISIBLE);
+        ToastUtil.showToast(MainActivity.this,"登录成功");
+        String name = account.getDisplayName();
+        String email = account.getEmail();
+        tv_google_email.setText(email);
+        tv_google_name.setText(name);
+
+    }
+
+    @Override
+    public void onGoogleLoginFail() {
+        ToastUtil.showToast(MainActivity.this,"登录失败，请稍后重试");
+    }
+
+    @Override
+    public void onGoogleLogoutSuccess() {
+        btn_signout_google.setVisibility(View.VISIBLE);
+        btn_signout_google.setVisibility(View.GONE);
+        ToastUtil.showToast(MainActivity.this,"已退出登录");
+        tv_google_name.setText("");
+        tv_google_email.setText("未登录");
+    }
+
+    @Override
+    public void onGoogleLogoutFail() {
+        ToastUtil.showToast(MainActivity.this,"退出登录失败，请稍后重试");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode ==GoogleLogin.RC_SIGN_IN){
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            mGoogleSign.handleSignInResult( result ) ;
+
         }
     }
 }

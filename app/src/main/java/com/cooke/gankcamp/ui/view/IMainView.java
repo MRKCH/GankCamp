@@ -6,4 +6,8 @@ package com.cooke.gankcamp.ui.view;
 
 public interface IMainView extends IBaseView {
     public void showDrawer();
+
+    public void signIn();
+
+    public void signOut();
 }
