@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "178391671640",
+    "project_id": "gankcamp"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178391671640:android:cdc1f66b6522539c",
+        "android_client_info": {
+          "package_name": "com.cooke.gankcamp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178391671640-0j4da0j701v9pujlfop7l3igjhkufqlt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cooke.gankcamp",
+            "certificate_hash": "ccfe9820c918e545fe238a4e53158cce9199391c"
+          }
+        },
+        {
+          "client_id": "178391671640-4ttab1dp70rnl30mqr09j41k5jj64un7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFoW6EeFw9aTBGh2UqX9tCMmwL9PwWJF8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
